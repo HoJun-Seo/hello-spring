@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
-@Repository
+
 public class MemoryMemberRepository implements MemberRepository{
 
     // 데이터베이스가 아닌 메모리 상에 데이터를 임시로 저장해놓기 위한 데이터 필드 선언
