@@ -24,21 +24,34 @@ public class JpaMemberRepository implements MemberRepository{
     // save 메소드 작성은 내일부터
     @Override
     public Member save(Member member) {
-        return null;
+        em.persist(member); // 이렇게 한 줄만 써줘도
+        // JPA 가 insert 쿼리 부터 id 값 세팅까지 전부 다 해준다.
+        return member;
     }
 
     @Override
     public Optional<Member> findById(Long id) {
-        return Optional.empty();
+        Member member = em.find(Member.class, id); // 기본키가 검색 조건일 경우 파라미터로 넘어온 id 값을 기준으로 객체 값을 찾아준다.
+        // select 쿼리에 where 조건 값으로 id 를 세팅해서 객체를 검색한 후 반환해준다.
+        return Optional.ofNullable(member);
     }
 
     @Override
     public Optional<Member> findByName(String name) {
-        return Optional.empty();
+        List<Member> result = em.createQuery("select m from Member m where m.name = :name", Member.class)
+                .setParameter("name", name)
+                .getResultList();
+        return result.stream().findAny();
     }
 
     @Override
     public List<Member> findAll() {
-        return null;
+        // 기본키가 검색 조건이 아닌 경우 JPQL 을 사용해서 select 쿼리를 작성해준다.
+        // JPQL 은 테이블이 아닌 객체를 중심으로 작성하는 쿼리이며, 이와 같이 쿼리를 작성하면
+        // JPA 가 이를 SQL 로 번역하여 데이터베이스로 전달해준다.
+        return em.createQuery("select m from Member m", Member.class).getResultList();
+        // m : 검색하고자 하는 객체에 대한 별칭(alias)
+        // SQL 에서 * 이나 컬럼 명을 기준으로 검색하는 것과 다르게, JPQL 에서는 객체 그 자체를 대상으로 검색한다.
+
     }
 }

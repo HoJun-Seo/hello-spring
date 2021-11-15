@@ -11,7 +11,7 @@ public class Member {
     private Long id;
 
     // @Column 어노테이션을 통해 생성시킬 테이블에서 각 컬럼의 이름을 지정해 줄 수 있다.
-    @Column(name = "username")
+//    @Column(name = "username")
     private String name;
 
     public Long getId() {
