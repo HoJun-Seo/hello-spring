@@ -21,10 +21,8 @@ public class MemberService {
 
     // 회원 가입
     public Long join(Member member){
-        // 중복 회원 검증 메소드
-        validateDuplicateMember(member); // 메소드 추출 단축키 활용 (Ctrl + Alt + M)
-        // 단축키 : Ctrl + Shift + T
 
+        validateDuplicateMember(member);
         memberRepository.save(member);
         return member.getId();
     }
